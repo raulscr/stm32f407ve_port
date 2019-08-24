@@ -79,17 +79,18 @@ static void GUITask(void* params){
     touchgfx::HAL::getInstance()->taskEntry();
 }
 
-int main(void)
-{
-    hw_init();
-    touchgfx_init();
-	
+int main(void){
+	hw_init();
+//	touchgfx_init();
+
 	blinkInit();
+	
+	
+//	xTaskCreate(GUITask, "GUITask", configGUI_TASK_STK_SIZE, NULL, configGUI_TASK_PRIORITY, NULL);
+	xTaskCreate(blinkTask, "blinkTask", configGUI_TASK_STK_SIZE, NULL, configGUI_TASK_PRIORITY, NULL);
 
-    xTaskCreate(GUITask, "GUITask", configGUI_TASK_STK_SIZE, NULL, configGUI_TASK_PRIORITY, NULL);
-    xTaskCreate(blinkTask, "blinkTask", configGUI_TASK_STK_SIZE, NULL, configGUI_TASK_PRIORITY, NULL);
+	vTaskStartScheduler();
 
-    vTaskStartScheduler();
+	for (;;);
 
-    for (;;);
 }

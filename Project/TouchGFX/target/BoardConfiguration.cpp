@@ -220,17 +220,17 @@ extern "C" {
         LtdcHandler.Init.DEPolarity = LTDC_DEPOLARITY_AL;
         LtdcHandler.Init.PCPolarity = LTDC_PCPOLARITY_IPC;
 
-        LCD_MspInit();
-        HAL_LTDC_Init(&LtdcHandler);
+//        LCD_MspInit();
+//        HAL_LTDC_Init(&LtdcHandler);
 
         /* Select the device */
-        LcdDrv = &ili9341_drv;
+//        LcdDrv = &ili9341_drv;
 
         /* LCD Init */
-        LcdDrv->Init();
+//        LcdDrv->Init();
 
         /* Initialize the SDRAM */
-        //BSP_SDRAM_Init();
+//        BSP_SDRAM_Init();
 
         return 0;
     }
@@ -305,7 +305,7 @@ static void LCD_LayerDefaultInit(uint16_t LayerIndex, uint32_t FB_Address)
 static void LCD_Config(void)
 {
     LCD_Init();
-    LCD_LayerDefaultInit(0, LCD_FRAME_BUFFER_LAYER1);
+    //LCD_LayerDefaultInit(0, LCD_FRAME_BUFFER_LAYER1);
 }
 
 namespace touchgfx
@@ -376,9 +376,8 @@ void touchgfx_init()
   *            AHB Prescaler                  = 1
   *            APB1 Prescaler                 = 4
   *            APB2 Prescaler                 = 2
-  *            HSE Frequency(Hz)              = 8000000
   *            PLL_M                          = 8
-  *            PLL_N                          = 336
+  *            PLL_N                          = 168
   *            PLL_P                          = 2
   *            PLL_Q                          = 7
   *            VDD(V)                         = 3.3
@@ -401,14 +400,14 @@ static void SystemClock_Config(void)
     __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
     /* Enable HSE Oscillator and activate PLL with HSE as source */
-    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-    RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+    RCC_OscInitStruct.HSIState = RCC_HSI_ON;
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-    RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+    RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
     RCC_OscInitStruct.PLL.PLLM = 8;
-    RCC_OscInitStruct.PLL.PLLN = 336;
-    RCC_OscInitStruct.PLL.PLLP = 2;
-    RCC_OscInitStruct.PLL.PLLQ = 7;
+    RCC_OscInitStruct.PLL.PLLN = 168;
+    RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+    RCC_OscInitStruct.PLL.PLLQ = 4;
     HAL_RCC_OscConfig(&RCC_OscInitStruct);
 
     /* Select PLL as system clock source and configure the HCLK, PCLK1 and PCLK2
